@@ -134,6 +134,90 @@ enum class AppThemePreset(
     accentHex = "#EAB308",
     emoji = "👑"
   ),
+  WOODEN_OAK(
+    id = "WOODEN_OAK",
+    titleAr = "الثيم الخشبي الفاخر",
+    descAr = "ألوان خشب البلوط والماهوجني مع درجات البني الدافئ والعنبر",
+    primaryHex = "#78350F",
+    secondaryHex = "#B45309",
+    bgHex = "#2E1A11",
+    cardHex = "#FFFFFF",
+    textDarkHex = "#451A03",
+    accentHex = "#D97706",
+    emoji = "🪵"
+  ),
+  WINDOWS_XP(
+    id = "WINDOWS_XP",
+    titleAr = "ويندوز إكس بي (Windows XP)",
+    descAr = "أزرق شريط لونا الشهير وأخضر تلال النعيم ولمسات برتقالية كلاسيكية",
+    primaryHex = "#0055EA",
+    secondaryHex = "#288C22",
+    bgHex = "#1D4B88",
+    cardHex = "#FFFFFF",
+    textDarkHex = "#002060",
+    accentHex = "#FF8C00",
+    emoji = "🪟"
+  ),
+  WINDOWS_11(
+    id = "WINDOWS_11",
+    titleAr = "ويندوز 11 (Windows 11 Fluent)",
+    descAr = "أزرق فلورنت المودرن مع خلفية ميكا الهادئة والمظهر العصري",
+    primaryHex = "#0067C0",
+    secondaryHex = "#0078D4",
+    bgHex = "#132742",
+    cardHex = "#FFFFFF",
+    textDarkHex = "#0B192C",
+    accentHex = "#60CDFF",
+    emoji = "💻"
+  ),
+  STADIUM_GRASS(
+    id = "STADIUM_GRASS",
+    titleAr = "عشب الملعب الأخضر",
+    descAr = "نجيل الملاعب الطبيعي الأخضر الحيوي مع لمسات رياضية مشعة",
+    primaryHex = "#15803D",
+    secondaryHex = "#22C55E",
+    bgHex = "#0E381E",
+    cardHex = "#FFFFFF",
+    textDarkHex = "#052E16",
+    accentHex = "#86EFAC",
+    emoji = "⚽"
+  ),
+  DESERT_GOLD(
+    id = "DESERT_GOLD",
+    titleAr = "الصحراء والرمال الذهبية",
+    descAr = "أصالة الكثبان الرملية الذهبية وشمس الغروب الدافئة",
+    primaryHex = "#92400E",
+    secondaryHex = "#D97706",
+    bgHex = "#381A05",
+    cardHex = "#FFFFFF",
+    textDarkHex = "#451A03",
+    accentHex = "#F59E0B",
+    emoji = "🏜️"
+  ),
+  SNOW_FROZEN(
+    id = "SNOW_FROZEN",
+    titleAr = "الثلج والجليد القطبي",
+    descAr = "صفاء وبرودة بلورات الثلج البيضاء والزرقاء الكريستالية",
+    primaryHex = "#0284C7",
+    secondaryHex = "#38BDF8",
+    bgHex = "#0E3452",
+    cardHex = "#FFFFFF",
+    textDarkHex = "#082F49",
+    accentHex = "#BAE6FD",
+    emoji = "❄️"
+  ),
+  MOUNTAIN_ALPINE(
+    id = "MOUNTAIN_ALPINE",
+    titleAr = "القمم الجبلية الصخرية",
+    descAr = "صخور الجرانيت الشاهقة وضباب القمم وبحيرات الجبال النقية",
+    primaryHex = "#334155",
+    secondaryHex = "#64748B",
+    bgHex = "#182230",
+    cardHex = "#FFFFFF",
+    textDarkHex = "#0F172A",
+    accentHex = "#38BDF8",
+    emoji = "🏔️"
+  ),
   MODERN_NAVY(
     id = "MODERN_NAVY",
     titleAr = "الكحلي العصري",
@@ -682,6 +766,7 @@ data class ReportCustomizationConfig(
 
   // 5. إضافات على التقرير
   val customWatermarkText: String = "", // نص مخصص للعلامة المائية
+  val subscriptionWatermarkText: String = "", // نص مخصص للعلامة المائية داخل بطاقة الاشتراك
   val customHeaderTitle: String = "", // نص إضافي أعلى التقرير (مثل: بسم الله الرحمن الرحيم)
   val customFooterText: String = "", // نص إضافي أسفل التقرير
   val taxOrCrNumber: String = "", // الرقم الضريبي أو السجل التجاري

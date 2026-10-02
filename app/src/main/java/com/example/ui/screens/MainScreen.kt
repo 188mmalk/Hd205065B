@@ -148,13 +148,17 @@ fun MainScreen(viewModel: InvoiceViewModel) {
     listOf(themeBg, Color(0xFF111827), Color(0xFF050508))
   } else {
     listOf(
+      themeBg,
       Color(
-        red = (themePrimary.red * 0.22f + 0.16f).coerceIn(0f, 1f),
-        green = (themePrimary.green * 0.22f + 0.18f).coerceIn(0f, 1f),
-        blue = (themePrimary.blue * 0.22f + 0.22f).coerceIn(0f, 1f)
+        red = (themePrimary.red * 0.40f + themeBg.red * 0.60f).coerceIn(0f, 1f),
+        green = (themePrimary.green * 0.40f + themeBg.green * 0.60f).coerceIn(0f, 1f),
+        blue = (themePrimary.blue * 0.40f + themeBg.blue * 0.60f).coerceIn(0f, 1f)
       ),
-      Color(0xFF262C36),
-      Color(0xFF1E232B)
+      Color(
+        red = (themeBg.red * 0.65f + 0.05f).coerceIn(0f, 1f),
+        green = (themeBg.green * 0.65f + 0.05f).coerceIn(0f, 1f),
+        blue = (themeBg.blue * 0.65f + 0.07f).coerceIn(0f, 1f)
+      )
     )
   }
 

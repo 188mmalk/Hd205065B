@@ -318,10 +318,15 @@ object PrintHelper {
     } else ""
 
     val subCardHtml = if (reportConfig.showCardSubscriptionBox) {
+      val effectiveSubWm = if (reportConfig.subscriptionWatermarkText.isNotBlank()) {
+        reportConfig.subscriptionWatermarkText
+      } else {
+        storeConfig.storeNameEn.ifEmpty { "ALMAMLAK ELECTRONICS" }.uppercase()
+      }
       """
         <div class="sub-card-box">
           <div class="watermark-bg">
-            <div class="wm-en" style="font-size:26px;font-weight:900;letter-spacing:4px;opacity:0.08;color:${reportConfig.headerColorHex};white-space:nowrap;">ALMAMLAK ELECTRONIC</div>
+            <div class="wm-en" style="font-size:26px;font-weight:900;letter-spacing:4px;opacity:0.08;color:${reportConfig.headerColorHex};white-space:nowrap;">$effectiveSubWm</div>
           </div>
           <div class="overlay-content">
             <div style="display:flex;justify-content:space-around;align-items:center;width:100%;margin-bottom:6px;">

@@ -304,6 +304,7 @@ class InvoiceRepository(context: Context) {
         put("showWatermark", reportCustomizationConfig.showWatermark)
         put("showCardSubscriptionBox", reportCustomizationConfig.showCardSubscriptionBox)
         put("customWatermarkText", reportCustomizationConfig.customWatermarkText)
+        put("subscriptionWatermarkText", reportCustomizationConfig.subscriptionWatermarkText)
         put("customHeaderTitle", reportCustomizationConfig.customHeaderTitle)
         put("customFooterText", reportCustomizationConfig.customFooterText)
         put("taxOrCrNumber", reportCustomizationConfig.taxOrCrNumber)
@@ -447,6 +448,16 @@ class InvoiceRepository(context: Context) {
       val shadedColorHex = obj.optString("shadedFieldColorHex", "#FFF0F3")
       val shadedAlpha = obj.optDouble("shadedFieldAlpha", 1.0).toFloat().coerceIn(0.05f, 1.0f)
 
+      val themePresetId = obj.optString("themePresetId", AppThemePreset.ROYAL_PURPLE.id)
+      val homeScreenStyleId = obj.optString("homeScreenStyleId", HomeScreenStyle.MODERN_CARDS.id)
+      val customPrimaryColorHex = obj.optString("customPrimaryColorHex", "#5E258D")
+      val customSecondaryColorHex = obj.optString("customSecondaryColorHex", "#8B5CF6")
+      val customBgColorHex = obj.optString("customBgColorHex", "#ECEFF1")
+      val customCardColorHex = obj.optString("customCardColorHex", "#FFFFFF")
+      val customThemeJson = obj.optString("customThemeJson", "")
+      val customBackgroundImageBase64 = obj.optString("customBackgroundImageBase64", "")
+      val bgImageAlpha = obj.optDouble("bgImageAlpha", 0.85).toFloat().coerceIn(0.05f, 1.0f)
+
       UiCustomizationConfig(
         buttonSize = try { ButtonSize.valueOf(sizeName) } catch (_: Exception) { ButtonSize.MEDIUM },
         buttonLayout = try { ButtonLayout.valueOf(layoutName) } catch (_: Exception) { ButtonLayout.SINGLE },
@@ -454,7 +465,16 @@ class InvoiceRepository(context: Context) {
         buttons = processedButtons,
         formFields = finalFields,
         shadedFieldColorHex = shadedColorHex,
-        shadedFieldAlpha = shadedAlpha
+        shadedFieldAlpha = shadedAlpha,
+        themePresetId = themePresetId,
+        homeScreenStyleId = homeScreenStyleId,
+        customPrimaryColorHex = customPrimaryColorHex,
+        customSecondaryColorHex = customSecondaryColorHex,
+        customBgColorHex = customBgColorHex,
+        customCardColorHex = customCardColorHex,
+        customThemeJson = customThemeJson,
+        customBackgroundImageBase64 = customBackgroundImageBase64,
+        bgImageAlpha = bgImageAlpha
       )
     } catch (_: Exception) {
       UiCustomizationConfig()
@@ -470,6 +490,15 @@ class InvoiceRepository(context: Context) {
       put("showQuickShortcutsBar", config.showQuickShortcutsBar)
       put("shadedFieldColorHex", config.shadedFieldColorHex)
       put("shadedFieldAlpha", config.shadedFieldAlpha.toDouble())
+      put("themePresetId", config.themePresetId)
+      put("homeScreenStyleId", config.homeScreenStyleId)
+      put("customPrimaryColorHex", config.customPrimaryColorHex)
+      put("customSecondaryColorHex", config.customSecondaryColorHex)
+      put("customBgColorHex", config.customBgColorHex)
+      put("customCardColorHex", config.customCardColorHex)
+      put("customThemeJson", config.customThemeJson)
+      put("customBackgroundImageBase64", config.customBackgroundImageBase64)
+      put("bgImageAlpha", config.bgImageAlpha.toDouble())
       val arr = JSONArray()
       config.buttons.forEach { b ->
         arr.put(JSONObject().apply {
@@ -563,6 +592,7 @@ class InvoiceRepository(context: Context) {
         showWatermark = obj.optBoolean("showWatermark", true),
         showCardSubscriptionBox = obj.optBoolean("showCardSubscriptionBox", true),
         customWatermarkText = effectiveWatermarkText,
+        subscriptionWatermarkText = obj.optString("subscriptionWatermarkText", ""),
         customHeaderTitle = obj.optString("customHeaderTitle", ""),
         customFooterText = obj.optString("customFooterText", ""),
         taxOrCrNumber = obj.optString("taxOrCrNumber", ""),
@@ -623,6 +653,7 @@ class InvoiceRepository(context: Context) {
       put("showWatermark", config.showWatermark)
       put("showCardSubscriptionBox", config.showCardSubscriptionBox)
       put("customWatermarkText", config.customWatermarkText)
+      put("subscriptionWatermarkText", config.subscriptionWatermarkText)
       put("customHeaderTitle", config.customHeaderTitle)
       put("customFooterText", config.customFooterText)
       put("taxOrCrNumber", config.taxOrCrNumber)

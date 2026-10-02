@@ -206,7 +206,10 @@ fun AppThemeCustomizerModal(
             val activePrimary = parseHexColor(uiState.uiCustomizationConfig.customPrimaryColorHex.ifBlank { activeTheme.primaryHex })
 
             Button(
-              onClick = onDismiss,
+              onClick = {
+                viewModel.showToast("✅ تم حفظ وتطبيق ثيم (${activeTheme.titleAr}) بنجاح!")
+                onDismiss()
+              },
               shape = RoundedCornerShape(8.dp),
               colors = ButtonDefaults.buttonColors(containerColor = activePrimary),
               modifier = Modifier.weight(1f)

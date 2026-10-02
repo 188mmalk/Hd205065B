@@ -1127,6 +1127,7 @@ private fun TabCustomElements(
   viewModel: InvoiceViewModel
 ) {
   var watermarkText by remember(config.customWatermarkText) { mutableStateOf(config.customWatermarkText) }
+  var subWatermarkText by remember(config.subscriptionWatermarkText) { mutableStateOf(config.subscriptionWatermarkText) }
   var headerTitle by remember(config.customHeaderTitle) { mutableStateOf(config.customHeaderTitle) }
   var noticeBadge by remember(config.customNoticeBadge) { mutableStateOf(config.customNoticeBadge) }
   var taxCrNumber by remember(config.taxOrCrNumber) { mutableStateOf(config.taxOrCrNumber) }
@@ -1137,6 +1138,7 @@ private fun TabCustomElements(
   fun applyChanges() {
     val updated = config.copy(
       customWatermarkText = watermarkText.trim(),
+      subscriptionWatermarkText = subWatermarkText.trim(),
       customHeaderTitle = headerTitle.trim(),
       customNoticeBadge = noticeBadge.trim(),
       taxOrCrNumber = taxCrNumber.trim(),
@@ -1183,6 +1185,31 @@ private fun TabCustomElements(
               applyChanges()
             },
             placeholder = { Text("مثال: المملكة للإلكترونيات") },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
+          )
+        }
+      }
+    }
+
+    // Secondary Watermark inside Subscription Card
+    item {
+      Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(10.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        border = BorderStroke(1.dp, Color(0xFFE0E0E0))
+      ) {
+        Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+          Text("💳 نص العلامة المائية لبطاقة الاشتراك ورقم الكرت", fontWeight = FontWeight.Bold, fontSize = 13.sp, color = Color(0xFF333333))
+          Text("اكتب النص المراد ظهوره كعلامة مائية خفيفة خلف بيانات الكرت والاشتراك (اتركه فارغاً للاستخدام التلقائي لاسم المحل بالإنجليزي):", fontSize = 11.sp, color = Color.Gray)
+          OutlinedTextField(
+            value = subWatermarkText,
+            onValueChange = {
+              subWatermarkText = it
+              applyChanges()
+            },
+            placeholder = { Text("مثال: ALMAMLAK ELECTRONICS") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
           )

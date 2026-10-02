@@ -986,8 +986,13 @@ fun InvoiceReportScreen(
                     .padding(vertical = 12.dp, horizontal = 12.dp)
                 ) {
                   // Subtle background watermark in subscription card
+                  val subscriptionWmText = if (effectiveReportConfig.subscriptionWatermarkText.isNotBlank()) {
+                    effectiveReportConfig.subscriptionWatermarkText
+                  } else {
+                    effectiveStoreNameEn.uppercase().ifEmpty { "ALMAMLAK ELECTRONICS" }
+                  }
                   Text(
-                    text = "ALMAMLAK ELECTRONICS",
+                    text = subscriptionWmText,
                     fontSize = (19 * fontScale).sp,
                     fontWeight = FontWeight.Black,
                     letterSpacing = 2.sp,
