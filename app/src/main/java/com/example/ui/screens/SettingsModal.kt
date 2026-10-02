@@ -444,23 +444,13 @@ fun SettingsModal(viewModel: InvoiceViewModel, onDismiss: () -> Unit) {
               onClick = { showStoreConfigDialog = true }
             )
 
-            // Card 2: تخصيص أزرار الواجهة الرئيسية
+            // Card 2: تخصيص أزرار ومظهر الواجهة الرئيسية
             SettingsCard(
               type = SettingsCardType.UI_CUSTOMIZE,
-              title = "تخصيص أزرار الواجهة الرئيسية",
-              subtitle = "إعادة ترتيب أزرار الشاشة، التبديل بين صف أو صفين، والتحكم بالحجم",
+              title = "تخصيص أزرار ومظهر الواجهة الرئيسية",
+              subtitle = "إعادة ترتيب الأزرار والحقول، التبديل بين صف أو صفين، ومظهر وثيم التطبيق (الخشبي، ويندوز، عشب ملعب، صحراوي، ثلجي، جبلي...)",
               onClick = {
                 viewModel.setUiCustomizerModalVisible(true)
-              }
-            )
-
-            // Card 3: تخصيص مظهر وثيم التطبيق
-            SettingsCard(
-              type = SettingsCardType.THEME_CUSTOMIZE,
-              title = "مظهر وثيم التطبيق",
-              subtitle = "تغيير الثيم الملكي، الليلي، الكحلي، الزمردي وتخصيص ألوان الواجهة بالكامل",
-              onClick = {
-                viewModel.setAppThemeCustomizerModalVisible(true)
               }
             )
 

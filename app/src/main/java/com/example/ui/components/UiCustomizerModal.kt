@@ -1,5 +1,6 @@
 package com.example.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -28,10 +29,13 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.data.AppActionButton
+import com.example.data.AppThemePreset
 import com.example.data.ButtonLayout
 import com.example.data.ButtonSize
 import com.example.data.FormCustomField
+import com.example.ui.theme.parseHexColor
 import com.example.ui.viewmodel.InvoiceViewModel
+import com.example.ui.viewmodel.UiState
 
 private val PRESET_COLORS = listOf(
   "#007BFF" to "أزرق",
@@ -156,20 +160,21 @@ fun UiCustomizerModal(
             }
           }
 
-          // 3 Tabs: 1. ترتيب وإخفاء الحقول | 2. ترتيب وسحب الأزرار | 3. الحجم والتخطيط
-          TabRow(
+          // 4 Tabs: 1. ترتيب وإخفاء الحقول | 2. ترتيب وسحب الأزرار | 3. الحجم والتخطيط | 4. مظهر وثيم التطبيق
+          ScrollableTabRow(
             selectedTabIndex = activeTab,
             containerColor = Color.White,
-            contentColor = Color(0xFF007BFF)
+            contentColor = Color(0xFF007BFF),
+            edgePadding = 6.dp
           ) {
             Tab(
               selected = activeTab == 0,
               onClick = { activeTab = 0 },
               text = {
                 Text(
-                  "📋 ترتيب وإخفاء الحقول (${config.formFields.size})",
+                  "📋 ترتيب الحقول (${config.formFields.size})",
                   fontWeight = if (activeTab == 0) FontWeight.Bold else FontWeight.Normal,
-                  fontSize = 13.sp
+                  fontSize = 12.5.sp
                 )
               }
             )
@@ -178,9 +183,9 @@ fun UiCustomizerModal(
               onClick = { activeTab = 1 },
               text = {
                 Text(
-                  "🔄 ترتيب وسحب الأزرار (${config.buttons.size})",
+                  "🔄 ترتيب الأزرار (${config.buttons.size})",
                   fontWeight = if (activeTab == 1) FontWeight.Bold else FontWeight.Normal,
-                  fontSize = 13.sp
+                  fontSize = 12.5.sp
                 )
               }
             )
@@ -191,7 +196,18 @@ fun UiCustomizerModal(
                 Text(
                   "📐 الحجم والتخطيط",
                   fontWeight = if (activeTab == 2) FontWeight.Bold else FontWeight.Normal,
-                  fontSize = 13.sp
+                  fontSize = 12.5.sp
+                )
+              }
+            )
+            Tab(
+              selected = activeTab == 3,
+              onClick = { activeTab = 3 },
+              text = {
+                Text(
+                  "🎨 مظهر وثيم التطبيق",
+                  fontWeight = if (activeTab == 3) FontWeight.Bold else FontWeight.Normal,
+                  fontSize = 12.5.sp
                 )
               }
             )
@@ -230,13 +246,21 @@ fun UiCustomizerModal(
                   onAddNew = { showAddDialog = true }
                 )
               }
-              else -> {
+              2 -> {
                 // TAB 2: الحجم والتخطيط والشريط السريع
                 SizeAndLayoutSection(
                   config = config,
                   onSizeSelected = { viewModel.updateButtonSize(it) },
                   onLayoutSelected = { viewModel.updateButtonLayout(it) },
-                  onToggleShortcuts = { viewModel.toggleQuickShortcutsBar(it) }
+                  onToggleShortcuts = { viewModel.toggleQuickShortcutsBar(it) },
+                  onOpenThemeTab = { activeTab = 3 }
+                )
+              }
+              else -> {
+                // TAB 3: مظهر وثيم التطبيق
+                AppThemeSection(
+                  viewModel = viewModel,
+                  uiState = uiState
                 )
               }
             }
@@ -790,7 +814,8 @@ private fun SizeAndLayoutSection(
   config: com.example.data.UiCustomizationConfig,
   onSizeSelected: (ButtonSize) -> Unit,
   onLayoutSelected: (ButtonLayout) -> Unit,
-  onToggleShortcuts: (Boolean) -> Unit
+  onToggleShortcuts: (Boolean) -> Unit,
+  onOpenThemeTab: () -> Unit = {}
 ) {
   LazyColumn(
     modifier = Modifier.fillMaxSize(),
@@ -974,6 +999,189 @@ private fun SizeAndLayoutSection(
             checked = config.showQuickShortcutsBar,
             onCheckedChange = onToggleShortcuts
           )
+        }
+      }
+    }
+
+    // Direct Quick-Jump Card for Theme & Appearance inside Size & Layout
+    item {
+      Card(
+        onClick = onOpenThemeTab,
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFF3E8FF)),
+        border = BorderStroke(1.5.dp, Color(0xFF7C3AED)),
+        modifier = Modifier.fillMaxWidth()
+      ) {
+        Row(
+          modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+          verticalAlignment = Alignment.CenterVertically,
+          horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+          Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier.weight(1f)
+          ) {
+            Text("🎨", fontSize = 28.sp)
+            Column {
+              Text(
+                text = "مظهر وثيم التطبيق",
+                fontWeight = FontWeight.Bold,
+                fontSize = 15.sp,
+                color = Color(0xFF1E1B4B)
+              )
+              Text(
+                text = "تغيير الثيم الملكي، الخشبي، ويندوز XP، ويندوز 11، عشب الملعب، صحراوي، ثلجي، جبلي...",
+                fontSize = 11.5.sp,
+                color = Color(0xFF6B21A8),
+                modifier = Modifier.padding(top = 2.dp)
+              )
+            }
+          }
+          Button(
+            onClick = onOpenThemeTab,
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF7C3AED)),
+            shape = RoundedCornerShape(8.dp),
+            contentPadding = PaddingValues(horizontal = 10.dp, vertical = 6.dp)
+          ) {
+            Text("فتح الثيمات ❯", fontSize = 11.5.sp, fontWeight = FontWeight.Bold, color = Color.White)
+          }
+        }
+      }
+    }
+  }
+}
+
+@Composable
+private fun AppThemeSection(
+  viewModel: InvoiceViewModel,
+  uiState: UiState
+) {
+  val currentPresetId = uiState.uiCustomizationConfig.themePresetId
+
+  LazyColumn(
+    modifier = Modifier.fillMaxSize(),
+    verticalArrangement = Arrangement.spacedBy(10.dp)
+  ) {
+    item {
+      Card(
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+      ) {
+        Column(modifier = Modifier.padding(14.dp)) {
+          Text(
+            text = "🎨 مظهر وثيم التطبيق",
+            fontWeight = FontWeight.Bold,
+            fontSize = 15.sp,
+            color = Color(0xFF1E1B4B)
+          )
+          Text(
+            text = "اختر الثيم المفضل لتغيير ألوان التطبيق بالكامل (الخشبي، ويندوز إكس بي، ويندوز 11، عشب الملعب، الصحراوي، الثلجي، الجبلي، الملكي...):",
+            fontSize = 12.sp,
+            color = Color(0xFF64748B),
+            modifier = Modifier.padding(top = 2.dp)
+          )
+        }
+      }
+    }
+
+    items(AppThemePreset.entries) { preset ->
+      val isSelected = currentPresetId == preset.id
+      Card(
+        onClick = { viewModel.setAppThemePreset(preset) },
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(
+          containerColor = if (isSelected) Color(0xFFF3E8FF) else Color.White
+        ),
+        border = BorderStroke(
+          width = if (isSelected) 2.dp else 1.dp,
+          color = if (isSelected) Color(0xFF7C3AED) else Color(0xFFE2E8F0)
+        ),
+        modifier = Modifier.fillMaxWidth()
+      ) {
+        Row(
+          modifier = Modifier
+            .fillMaxWidth()
+            .padding(12.dp),
+          verticalAlignment = Alignment.CenterVertically,
+          horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+          Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            modifier = Modifier.weight(1f)
+          ) {
+            Text(text = preset.emoji, fontSize = 24.sp)
+            Column {
+              Text(
+                text = preset.titleAr,
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.5.sp,
+                color = Color(0xFF0F172A)
+              )
+              Text(
+                text = preset.descAr,
+                fontSize = 11.5.sp,
+                color = Color(0xFF64748B)
+              )
+            }
+          }
+
+          Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(6.dp)
+          ) {
+            Box(
+              modifier = Modifier
+                .size(24.dp)
+                .clip(CircleShape)
+                .background(parseHexColor(preset.primaryHex))
+                .border(1.dp, Color(0xFFCBD5E1), CircleShape)
+            )
+            Box(
+              modifier = Modifier
+                .size(24.dp)
+                .clip(CircleShape)
+                .background(parseHexColor(preset.secondaryHex))
+                .border(1.dp, Color(0xFFCBD5E1), CircleShape)
+            )
+            if (isSelected) {
+              Text("✓", color = Color(0xFF7C3AED), fontWeight = FontWeight.Black, fontSize = 18.sp)
+            }
+          }
+        }
+      }
+    }
+
+    item {
+      Row(
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+      ) {
+        OutlinedButton(
+          onClick = { viewModel.resetAppThemeToDefault() },
+          shape = RoundedCornerShape(8.dp),
+          modifier = Modifier.weight(1f)
+        ) {
+          Text("استعادة الافتراضي ↺", fontSize = 12.sp)
+        }
+        val activeTheme = uiState.uiCustomizationConfig.currentTheme()
+        val activePrimary = parseHexColor(uiState.uiCustomizationConfig.customPrimaryColorHex.ifBlank { activeTheme.primaryHex })
+
+        Button(
+          onClick = {
+            viewModel.showToast("✅ تم حفظ وتطبيق ثيم (${activeTheme.titleAr}) بنجاح!")
+          },
+          shape = RoundedCornerShape(8.dp),
+          colors = ButtonDefaults.buttonColors(containerColor = activePrimary),
+          modifier = Modifier.weight(1f)
+        ) {
+          Text("💾 حفظ وتطبيق الثيم", fontSize = 12.5.sp, fontWeight = FontWeight.Bold)
         }
       }
     }
